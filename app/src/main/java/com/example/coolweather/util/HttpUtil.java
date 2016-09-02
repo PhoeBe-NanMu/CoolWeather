@@ -20,7 +20,7 @@ public class HttpUtil {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                HttpURLConnection httpURLConnection = null;
+                HttpURLConnection httpURLConnection ;
                 try {
                     URL url = new URL(address);
                     httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -35,6 +35,9 @@ public class HttpUtil {
                     if ((line = bufferedReader.readLine()) != null) {
                         stringBuilder.append(line);
                     }
+                    Log.i("info","ininininninininininininin");
+                    Log.i("info",stringBuilder.toString());
+
                     if (httpCallBackListener != null) {
                         httpCallBackListener.onFinish(stringBuilder.toString());
                     }

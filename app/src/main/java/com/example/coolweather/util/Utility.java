@@ -1,6 +1,7 @@
 package com.example.coolweather.util;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.example.coolweather.db.CoolWeatherDB;
 import com.example.coolweather.model.City;
@@ -24,16 +25,20 @@ public class Utility {
     public synchronized static boolean handleProvinceResponse(CoolWeatherDB coolWeatherDB,String response) {
 
         if (!TextUtils.isEmpty(response)) {
+            Log.i("info","Province Information : "+response);
             String[] allProvinces = response.split(",");
             if (allProvinces != null && allProvinces.length > 0) {
                 for (String p : allProvinces
                      ) {
+                    Log.i("info","++"+p.toString());
                     String[] array = p.split("\\|");
                     Province province = new Province();
                     province.setProvinceCode(array[0]);
                     province.setProvinceName(array[1]);
                     coolWeatherDB.saveProvince(province);
                 }
+
+
                 return true;
             }
         }

@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.example.coolweather.model.City;
 import com.example.coolweather.model.County;
@@ -79,9 +78,9 @@ public class CoolWeatherDB {
     public List<Province> loadProvinces() {
         List<Province> list = new ArrayList<>() ;
         Cursor cursor = db.query("Province",null,null,null,null,null,null);
-        if (cursor.moveToNext()) {
+        while (cursor.moveToNext()) {
             Province province = new Province();
-            province.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            province.setId(cursor.getInt(cursor.getColumnIndex("_id")));
             province.setProvinceName(cursor.getString(cursor.getColumnIndex("province_name")));
             province.setProvinceCode(cursor.getString(cursor.getColumnIndex("province_code")));
             list.add(province);
@@ -113,7 +112,7 @@ public class CoolWeatherDB {
         Cursor cursor = db.query("City",null,"province_id = ?",new String[]{String.valueOf(provinceId)},null,null,null);
         while (cursor.moveToNext()) {
             City city = new City();
-            city.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            city.setId(cursor.getInt(cursor.getColumnIndex("_id")));
             city.setCityName(cursor.getString(cursor.getColumnIndex("city_name")));
             city.setCityCode(cursor.getString(cursor.getColumnIndex("city_code")));
             city.setProvinceId(provinceId);
@@ -146,7 +145,7 @@ public class CoolWeatherDB {
         Cursor cursor = db.query("County",null,"city_id = ?",new String[]{String.valueOf(cityId)},null,null,null);
         while (cursor.moveToNext()) {
             County county = new County();
-            county.setId(cursor.getInt(cursor.getColumnIndex("id")));
+            county.setId(cursor.getInt(cursor.getColumnIndex("_id")));
             county.setCountyName(cursor.getString(cursor.getColumnIndex("county_name")));
             county.setCountyCode(cursor.getString(cursor.getColumnIndex("county_code")));
             county.setCityId(cityId);
