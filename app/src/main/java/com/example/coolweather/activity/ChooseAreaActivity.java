@@ -1,7 +1,10 @@
 package com.example.coolweather.activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -58,9 +61,21 @@ public class ChooseAreaActivity extends AppCompatActivity {
     /*当前选中的级别*/
     private int currentLevel;
 
+    private boolean isFromWeatherActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        isFromWeatherActivity = getIntent().getBooleanExtra("from_weather_activity",false);
+        SharedPreferences prefs = PreferenceManager.
+                getDefaultSharedPreferences(this);
+        if (prefs.getBoolean("city_selected", false) && !isFromWeatherActivity) {
+            Intent intent = new Intent(this, WeatherActivity.class);
+            startActivity(intent);
+            finish();
+            return;
+        }
+
         setContentView(R.layout.choose_area);
         listView = (ListView) findViewById(R.id.list_view);
         textView = (TextView) findViewById(R.id.title_text);
@@ -76,6 +91,13 @@ public class ChooseAreaActivity extends AppCompatActivity {
                 } else if (currentLevel == LEVEL_CITY) {
                     selectedCity = cityList.get(i);
                     queryCounties();
+                }else if (currentLevel == LEVEL_COUNTY) {
+                    String countyCode = countyList.get(i).getCountyCode();
+                    Intent intent = new Intent(ChooseAreaActivity.this,
+                            WeatherActivity.class);
+                    intent.putExtra("county_code", countyCode);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });

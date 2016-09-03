@@ -25,6 +25,7 @@ public class HttpUtil {
                     URL url = new URL(address);
                     httpURLConnection = (HttpURLConnection) url.openConnection();
                     httpURLConnection.setRequestMethod("GET");
+
                     httpURLConnection.setReadTimeout(1000*10);
                     httpURLConnection.setConnectTimeout(1000*10);
                     InputStream inputStream = httpURLConnection.getInputStream();
@@ -35,8 +36,6 @@ public class HttpUtil {
                     if ((line = bufferedReader.readLine()) != null) {
                         stringBuilder.append(line);
                     }
-                    Log.i("info","ininininninininininininin");
-                    Log.i("info",stringBuilder.toString());
 
                     if (httpCallBackListener != null) {
                         httpCallBackListener.onFinish(stringBuilder.toString());
